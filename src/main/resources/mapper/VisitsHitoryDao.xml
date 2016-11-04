@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.feiyu.myblog.admin.dao.VisitsHistoryDao">
+
+    <insert id="add">
+        INSERT ignore
+        INTO history_visits(id,visits_history_counts)
+        VALUES (#{vHistory.id},#{vHistory.visitsHistoryCounts})
+    </insert>
+
+    <update id="update">
+        UPDATE history_visits
+        SET visits_history_counts = visits_history_counts+1
+    </update>
+
+    <select id="get">
+        SELECT visits_history_counts
+        FROM history_visits
+    </select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.feiyu.myblog.admin.dao.PhotoAlbumDao">
+
+    <resultMap id="photoAlbumMap" type="PhotoAlbum">
+        <id column="id" property="id"/>
+        <result column="url" property="url"/>
+        <result column="description" property="description"/>
+        <result column="load_time" property="loadTime"/>
+    </resultMap>
+
+    <!--ignore 主键冲突，报错。返回0-->
+    <insert id="add" parameterType="PhotoAlbum">
+        INSERT ignore
+        INTO photo_album(id,url,description,load_time)
+        VALUES (#{photo.id},#{photo.url},#{photo.description},#{photo.loadTime})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM photo_album WHERE id = #{id}
+    </delete>
+    
+    <delete id="batchDelete" parameterType="java.util.List">
+        DELETE FROM photo_album
+        WHERE id IN
+        <foreach item="ids" index="index" collection="list"
+                 open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+    
+    <select id="getCounts" resultType="int">
+        SELECT COUNT(*) FROM photo_album
+    </select>
+
+    <select id="getListByPage" resultMap="photoAlbumMap">
+        SELECT  id,url,description,load_time
+        FROM photo_album
+        ORDER BY load_time DESC
+        LIMIT #{currentPage},#{pageNumber}
+    </select>
+</mapper>

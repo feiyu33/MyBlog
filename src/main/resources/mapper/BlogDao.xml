@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.feiyu.myblog.admin.dao.BlogDao">
+    <resultMap id="BlogMap" type="Blog">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="classification" column="classification"/>
+        <result property="isComments" column="is_comments"/>
+        <result property="readCounts" column="read_counts"/>
+        <result property="isRead" column="is_read"/>
+        <result property="isDraft" column="is_draft"/>
+        <result property="thumbUpNumber" column="thumb_up_number"/>
+        <result property="releaseTime" column="release_time"/>
+    </resultMap>
+
+    <insert id="add" parameterType="Blog">
+        INSERT ignore
+        INTO blog(id,title,content,classification,is_comments,read_counts,is_read,is_draft,thumb_up_number,release_time)
+        VALUES (#{blog.id},#{blog.title},#{blog.content},#{blog.classification},#{blog.isComments},#{blog.readCounts},#{blog.isRead},#{blog.isDraft},#{blog.thumbUpNumber},#{blog.releaseTime})
+    </insert>
+
+    <update id="delete">
+        UPDATE blog
+        SET isRead = #{notRead}
+        WHERE id = #{bid}
+    </update>
+
+    <select id="getListByPage" resultMap="BlogMap">
+        SELECT id,
+               title,
+               content,
+               classification,
+               read_counts,
+               thumb_up_number,
+               release_time
+        FROM blog
+        WHERE is_read = #{isRead}
+        ORDER BY release_time DESC
+        LIMIT #{currentPage},#{pageNumber}
+    </select>
+
+    <update id="update">
+        UPDATE blog
+        SET title = #{blog.title},
+            content = #{blog.content},
+            classification = #{blog.classification},
+            is_comments = #{blog.isComments},
+            release_time = #{blog.releaseTime}
+        WHERE id = #{blog.id}
+    </update>
+
+    <update id="addReadCounts">
+        UPDATE blog
+        SET read_counts = read_counts+1,
+        WHERE id = #{bid}
+    </update>
+
+    <update id="addThumbUpCounts">
+        UPDATE blog
+        SET thumb_up_number = thumb_up_number+1
+        WHERE id = #{bid}
+    </update>
+
+    <select id="getTotalCounts" resultType="int">
+        SELECT COUNT(*)
+        FROM blog
+        WHERE is_read = #{isRead}
+    </select>
+
+    <select id="getById" resultMap="BlogMap">
+        SELECT id,
+               title,
+               content,
+               is_commemts,
+               is_read,
+               is_draft,
+               classification,
+               read_counts,
+               thumb_up_number,
+               release_time
+        FROM blog
+        WHERE id = #{bid}
+    </select>
+
+    <select id="getCountsByClassification" resultType="int">
+        SELECT COUNT(classification) FROM blog where classification = #{classification}
+    </select>
+
+    <select id="getListByClassification" resultMap="BlogMap">
+        SELECT id,
+               title,
+               content,
+               is_commemts,
+               is_read,
+               is_draft,
+               classification,
+               read_counts,
+               thumb_up_number,
+               release_time
+        FROM blog
+        WHERE classification = #{classification}
+        ORDER BY release_time DESC
+        LIMIT #{currentPage},#{pageNumber}
+    </select>
+
+    <select id="getDraftCounts" resultType="int">
+        SELECT COUNT(*) FROM blog WHERE is_draft = #{isDraft}
+    </select>
+</mapper>

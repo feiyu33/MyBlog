@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.feiyu.myblog.admin.dao.CommentsDao">
+    <resultMap id="CommentsMap" type="Comments">
+        <id column="id" property="id"/>
+        <result column="comments" property="comments"/>
+        <result column="userName" property="userName"/>
+        <result column="email" property="email"/>
+        <result column="blog_id" property="blogId"/>
+        <result column="comment_time" property="commentTime"/>
+    </resultMap>
+
+    <insert id="add">
+        INSERT ignore
+        INTO comments(id,comments,userName,email,blog_id,comment_time)
+        VALUES (#{comments.id},#{comments.comments},#{comments.userName},#{comments.email},#{comments.blogId},#{comments.commentTime})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM comments WHERE id = #{cid}
+    </delete>
+
+    <select id="getListByBlogId" resultMap="CommentsMap">
+        SELECT id,
+               comments,
+               userName,
+               email,
+               blog_id,
+               comments_time
+        FROM comments
+        WHERE blog_id = #{blogId}
+        ORDER BY comments_time DESC
+        LIMIT #{currentPage},#{pageNumber}
+    </select>
+
+    <select id="getTotalCounts">
+        SELECT COUNT(*) FROM comments WHERE blog_id = #{bid}
+    </select>
+</mapper>

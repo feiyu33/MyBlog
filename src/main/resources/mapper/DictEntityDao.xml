@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.feiyu.myblog.admin.dao.DictEntityDao">
+
+    <resultMap id="dictMap" type="DictEntity">
+        <id column="id" property="id"/>
+        <result column="dict_type" property="dictType"/>
+        <result column="dict_value" property="dictValue"/>
+        <result column="dict_name" property="dictName"/>
+    </resultMap>
+
+    <select id="getListByType" resultMap="dictMap">
+        SELECT id,
+               dict_type,
+               dict_value,
+               dict_name
+        FROM dict_entity
+        WHERE dict_type = #{type}
+    </select>
+
+    <select id="getByValue">
+        SELECT id,
+               dict_type,
+               dict_value,
+               dict_name
+        FROM dict_entity
+        WHERE dict_value = #{value}
+    </select>
+</mapper>
