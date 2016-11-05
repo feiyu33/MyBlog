@@ -9,6 +9,8 @@ import org.feiyu.myblog.admin.entity.DictEntity;
 import org.feiyu.myblog.admin.po.ClassificationPO;
 import org.feiyu.myblog.common.po.PageWrap;
 import org.feiyu.myblog.common.po.SystemConstant;
+import org.feiyu.myblog.common.util.HtmlConversionSql;
+import org.feiyu.myblog.common.util.IdGen;
 import org.feiyu.myblog.common.util.SystemConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,20 +39,21 @@ public class BlogServiceImpl implements BlogService {
     @Resource
     private DictEntityDao dictEntityDao;
 
-    public boolean add(Blog blog)  throws Exception{
+    public boolean addOrDraft(Blog blog,int isDraft)  throws Exception{
+        blog.setId(IdGen.uuId());
+        blog.setReleaseTime(new Date());
+        blog.setIsRead(SystemConstant.IS_READ);
+        blog.setThumbUpNumber(0);
+        blog.setReadCounts(0);
+        blog.setIsDraft(isDraft);
+        blog.setContent(HtmlConversionSql.conversionHtml(blog.getContent()));
         int rows = blogDao.add(blog);
-        if(rows == 1){
-            return true;
-        }
-        return false;
+        return rows == 1 ? true : false;
     }
 
     public boolean delete(String bid)  throws Exception{
         int rows = blogDao.delete(bid, SystemConstant.NOT_READ);
-        if(rows == 1){
-            return true;
-        }
-        return false;
+        return rows == 1 ? true : false;
     }
 
     public PageWrap<Blog> getListByPage(int currentPage)  throws Exception{
@@ -65,26 +69,17 @@ public class BlogServiceImpl implements BlogService {
 
     public boolean update(Blog blog) throws Exception{
         int rows = blogDao.update(blog);
-        if(rows == 1){
-            return true;
-        }
-        return false;
+        return rows == 1 ? true : false;
     }
 
     public boolean addReadCounts(String bid)  throws Exception{
         int rows = blogDao.addReadCounts(bid);
-        if(rows == 1){
-            return true;
-        }
-        return false;
+        return rows == 1 ? true : false;
     }
 
     public boolean addThumbUpCounts(String bid)  throws Exception{
         int rows = blogDao.addThumbUpCounts(bid);
-        if(rows == 1){
-            return true;
-        }
-        return false;
+        return rows == 1 ? true : false;
     }
 
     public Blog getById(String bid)  throws Exception{
@@ -94,11 +89,11 @@ public class BlogServiceImpl implements BlogService {
     public List<ClassificationPO> getCountsByClassification() throws Exception {
 
         List<ClassificationPO> classificationPOs = new ArrayList<ClassificationPO>();
-        //获取分类列表
+        //获取分类列表并给每一个分类赋值
         List<DictEntity> classifications = dictEntityDao.getListByType("classification");
         for(DictEntity dictEntity : classifications){
             ClassificationPO classificationPO = new ClassificationPO();
-            classificationPO.setBlogCounts(blogDao.getCountsByClassification(dictEntity.getDictValue()));
+            classificationPO.setBlogCounts(blogDao.getCountsByClassification(dictEntity.getDictValue(),SystemConstant.IS_READ));
             classificationPO.setDictEntity(dictEntity);
             classificationPOs.add(classificationPO);
         }
@@ -108,13 +103,13 @@ public class BlogServiceImpl implements BlogService {
     public PageWrap<Blog> getListByClassification(String classification, int currentPage) throws Exception {
         PageWrap<Blog> blogPageWrap = new PageWrap<Blog>();
         blogPageWrap.setCurrentPage(currentPage);
-        blogPageWrap.setCounts(blogDao.getCountsByClassification(classification));
-        blogPageWrap.setData(blogDao.getListByClassification(classification,currentPage,Integer.parseInt(SystemConfig.getConfig("page.number"))));
+        blogPageWrap.setCounts(blogDao.getCountsByClassification(classification,SystemConstant.IS_READ));
+        blogPageWrap.setData(blogDao.getListByClassification(classification,currentPage,Integer.parseInt(SystemConfig.getConfig("page.number")),SystemConstant.IS_READ));
 
         return blogPageWrap;
     }
 
     public int getDraftCounts() throws  Exception{
-        return blogDao.getDraftCounts(SystemConstant.IS_DRAFT);
+        return blogDao.getDraftCounts(SystemConstant.IS_DRAFT,SystemConstant.IS_READ);
     }
 }

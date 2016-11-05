@@ -39,19 +39,13 @@ public class PhotoAlbumServiceImpl implements PhotoAlbumService{
 
         photoAlbum.setLoadTime(new Date());
         int rows = photoAlbumDao.add(photoAlbum);
-        if(rows == 1){
-            return true;
-        }
-        return false;
+        return rows == 1 ? true : false;
     }
 
     public boolean delete(String id)  throws Exception{
 
         int rows = photoAlbumDao.delete(id);
-        if(rows == 1){
-            return true;
-        }
-        return false;
+        return rows == 1 ? true : false;
     }
 
     public PageWrap<PhotoAlbum> getListByPage(int page)  throws Exception{
@@ -67,9 +61,6 @@ public class PhotoAlbumServiceImpl implements PhotoAlbumService{
     public boolean batchDelete(List<String> ids)  throws Exception{
 
         int rows = photoAlbumDao.batchDelete(ids);
-        if(rows >= 1){
-            return true;
-        }
-        return false;
+        return rows >= 1 ? true : false;
     }
 }

@@ -107,7 +107,7 @@ public interface BlogDao {
      * @Date: 2016/11/1
      * @return:
      */
-    int getCountsByClassification(String classification);
+    int getCountsByClassification(@Param("classification") String classification,@Param("isRead") int isRead);
     /**
      * @title: getListByClassification
      * Create By feiyu
@@ -116,7 +116,7 @@ public interface BlogDao {
      * @Date: 2016/11/1
      * @return:
      */
-    List<Blog> getListByClassification(@Param("classification") String classification,@Param("currentPage") int currentPage,@Param("pageNumber") int pageNumber);
+    List<Blog> getListByClassification(@Param("classification") String classification,@Param("currentPage") int currentPage,@Param("pageNumber") int pageNumber,@Param("isRead") int isRead);
 
     /**
      * @title: getDraftCounts
@@ -126,5 +126,5 @@ public interface BlogDao {
      * @Date: 2016/11/1
      * @return: int 数量
      */
-    int getDraftCounts(int isDraft);
+    int getDraftCounts(@Param("isDraft") int isDraft, @Param("isRead") int isRead);
 }

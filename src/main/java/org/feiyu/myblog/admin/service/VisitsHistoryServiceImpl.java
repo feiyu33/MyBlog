@@ -29,18 +29,12 @@ public class VisitsHistoryServiceImpl implements VisitsHistoryService{
     public boolean add() {
         VisitsHistory visitsHistory = new VisitsHistory(IdGen.uuId(),0);
         int rows = visitsHistoryDao.add(visitsHistory);
-        if(rows == 1){
-            return true;
-        }
-        return false;
+        return rows == 1 ? true : false;
     }
 
     public boolean update() {
         int rows = visitsHistoryDao.update();
-        if(rows == 1){
-            return true;
-        }
-        return false;
+        return rows == 1 ? true : false;
     }
 
     public int get() {

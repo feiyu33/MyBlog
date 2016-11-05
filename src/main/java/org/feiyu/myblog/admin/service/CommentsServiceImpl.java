@@ -29,18 +29,12 @@ public class CommentsServiceImpl implements CommentsService{
 
     public boolean add(Comments comments)  throws Exception{
         int rows = commentsDao.add(comments);
-        if(rows == 0){
-            return true;
-        }
-        return false;
+        return rows == 1 ? true : false;
     }
 
     public boolean delete(String cid)  throws Exception{
         int rows = commentsDao.delete(cid);
-        if(rows == 1){
-            return true;
-        }
-        return false;
+        return rows == 1 ? true : false;
     }
 
     public PageWrap<Comments> getListByBlogId(String blogId, int currentPage) throws Exception {

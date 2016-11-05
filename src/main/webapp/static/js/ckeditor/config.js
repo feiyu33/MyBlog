@@ -2,7 +2,6 @@
  * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
-
 CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here.
 	// For complete reference see:
@@ -39,5 +38,17 @@ CKEDITOR.editorConfig = function( config ) {
 	//去除图片预览框里的文字
 	config.image_previewText = ' ';
 	//上传图片路径
-	config.filebrowserImageUploadUrl = "file/uploadImg";
+	var strFullPath = window.document.location.href;
+
+	var strPath = window.document.location.pathname;
+
+	var pos = strFullPath.indexOf(strPath);
+
+	var prePath = strFullPath.substring(0,pos);
+
+	var postPath =strPath.substring(0,strPath.substr(1).indexOf('/')+1);
+
+	var path_url = prePath+postPath;
+
+	config.filebrowserImageUploadUrl = path_url+'/file/uploadImg';
 };

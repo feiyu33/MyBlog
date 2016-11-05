@@ -5,11 +5,13 @@ package org.feiyu.myblog.admin.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.feiyu.myblog.admin.entity.Blog;
 import org.feiyu.myblog.admin.entity.User;
 import org.feiyu.myblog.admin.po.ClassificationPO;
 import org.feiyu.myblog.admin.service.BlogService;
 import org.feiyu.myblog.admin.service.PhotoAlbumService;
 import org.feiyu.myblog.admin.service.UserService;
+import org.feiyu.myblog.common.po.PageWrap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -77,6 +79,9 @@ public class UserController {
                 //获取博文分类和对应的篇数
                 List<ClassificationPO> classificationPOs = blogService.getCountsByClassification();
                 mv.addObject("classificationPOs",classificationPOs);
+                //获取最新博文
+                PageWrap<Blog> blogPageWrap = blogService.getListByPage(1);
+                mv.addObject("blogPageWrap",blogPageWrap);
                 return mv;
             }
         } catch (Exception e) {

@@ -30,10 +30,7 @@ public class VisitsServiceImpl  implements VisitsService{
     public boolean add() throws Exception {
         Visits visits = new Visits(IdGen.uuId(),new Date(),0);
         int rows = visitsDao.add(visits);
-        if(rows == 1){
-            return true;
-        }
-        return false;
+        return rows == 1 ? true : false;
     }
 
     public int getCounts() throws Exception {
@@ -42,9 +39,6 @@ public class VisitsServiceImpl  implements VisitsService{
 
     public boolean update() throws Exception {
         int rows = visitsDao.update(new Date());
-        if(rows == 1){
-            return true;
-        }
-        return false;
+        return rows == 1 ? true : false;
     }
 }

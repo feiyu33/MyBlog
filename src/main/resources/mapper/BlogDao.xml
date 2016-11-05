@@ -86,7 +86,7 @@
     </select>
 
     <select id="getCountsByClassification" resultType="int">
-        SELECT COUNT(classification) FROM blog where classification = #{classification}
+        SELECT COUNT(classification) FROM blog where classification = #{classification} AND is_read = #{isRead}
     </select>
 
     <select id="getListByClassification" resultMap="BlogMap">
@@ -101,12 +101,12 @@
                thumb_up_number,
                release_time
         FROM blog
-        WHERE classification = #{classification}
+        WHERE classification = #{classification} AND is_read = #{isRead}
         ORDER BY release_time DESC
         LIMIT #{currentPage},#{pageNumber}
     </select>
 
     <select id="getDraftCounts" resultType="int">
-        SELECT COUNT(*) FROM blog WHERE is_draft = #{isDraft}
+        SELECT COUNT(*) FROM blog WHERE is_draft = #{isDraft} AND is_read = #{isRead}
     </select>
 </mapper>

@@ -39,10 +39,7 @@ public class UserServiceImpl implements UserService{
     public boolean login(String name,String password) throws Exception {
         String pwd = MD5Util.MD5Encode(password);
         User user = userDao.login(name,pwd);
-        if(user != null){
-            return true;
-        }
-        return false;
+        return user != null ? true : false;
     }
 
     public User getUserInfo() throws Exception {
@@ -51,10 +48,7 @@ public class UserServiceImpl implements UserService{
 
     public boolean update(User user) throws Exception {
         int rows = userDao.update(user);
-        if(rows == 1){
-            return true;
-        }
-        return false;
+        return rows == 1 ? true : false;
     }
 
     public boolean updatePwd(String name, String password,String newPassword) throws Exception {
@@ -62,12 +56,7 @@ public class UserServiceImpl implements UserService{
         if(user != null){
             String pwd = MD5Util.MD5Encode(newPassword);
             int rows = userDao.updatePwd(pwd);
-            if(rows == 1){
-                return true;
-            }else{
-                return false;
-            }
-
+            return rows == 1 ? true : false;
         }
         return false;
     }

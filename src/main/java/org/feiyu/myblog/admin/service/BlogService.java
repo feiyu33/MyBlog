@@ -26,7 +26,7 @@ public interface BlogService {
      * @Date: 2016/10/29
      * @return: boolean是否新增成功
      */
-    boolean add(Blog blog) throws Exception;
+    boolean addOrDraft(Blog blog,int isDraft) throws Exception;
 
     /**
      * @title: delete

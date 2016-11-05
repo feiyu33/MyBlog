@@ -27,7 +27,7 @@ import java.io.IOException;
  * @create 2016/10/18
  */
 @Controller
-@RequestMapping("file")
+@RequestMapping("/file")
 public class FileController {
 
     private static Logger log = Logger.getLogger(FileController.class);

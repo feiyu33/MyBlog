@@ -39,18 +39,7 @@ public class BlogServiceImplTest {
      */
     @Test
     public void testAdd() throws Exception {
-        Blog blog = new Blog();
-        blog.setId(IdGen.uuId());
-        blog.setTitle("test");
-        blog.setClassification("test");
-        blog.setContent("test");
-        blog.setIsComments(SystemConstant.IS_COMMENTS);
-        blog.setReadCounts(0);
-        blog.setIsRead(SystemConstant.IS_READ);
-        blog.setIsDraft(SystemConstant.NOT_DRAFT);
-        blog.setThumbUpNumber(1);
-        blog.setReleaseTime(new Date());
-        blogService.add(blog);
+
     }
 
     /**

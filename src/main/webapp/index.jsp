@@ -17,8 +17,9 @@
         用户名：<input type="text" name="userName"/>
         密码：<input type="password" name="password"/>
         <input type="submit" value="登录">
+        <textarea id="editor1" class="ckeditor">Sample Text</textarea>
     </form>
-    <textarea id="editor1" class="ckeditor">Sample Text</textarea>
+
 </div>
 </body>
 </html>

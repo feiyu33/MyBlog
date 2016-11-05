@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fns" uri="/WEB-INF/tlds/fns.tld"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <html>
 <head>
@@ -52,7 +53,7 @@
                 <c:forEach items="${classificationPOs}" var="c">
                     <tr>
                         <td>
-                            ${c.dictEntity.dictName}
+                            <a href="#">${c.dictEntity.dictName}</a>
                         </td>
                         <td>
                             ${c.blogCounts}
@@ -60,7 +61,6 @@
                     </tr>
 
                 </c:forEach>
-
                 </tbody>
             </table>
         </div>
@@ -85,34 +85,17 @@
                 </div>
             </nav>
             <ul>
-                <li>
-                    Lorem ipsum dolor sit amet
-                </li>
-                <li>
-                    Consectetur adipiscing elit
-                </li>
-                <li>
-                    Integer molestie lorem at massa
-                </li>
-                <li>
-                    Facilisis in pretium nisl aliquet
-                </li>
-                <li>
-                    Nulla volutpat aliquam velit
-                </li>
-                <li>
-                    Faucibus porta lacus fringilla vel
-                </li>
-                <li>
-                    Aenean sit amet erat nunc
-                </li>
-                <li>
-                    Eget porttitor lorem
-                </li>
+                <c:forEach items="${blogPageWrap.data}" var="b">
+                    <li>
+                        <a href="#" style="font-family: 微软雅黑;font-size: 18px;color:#1e90ff">${b.title}</a><br/>
+                        <span>阅读(${b.readCounts})&nbsp;&nbsp;·评论(0)&nbsp;&nbsp;·推荐(${b.thumbUpNumber})&nbsp;&nbsp;·(<a href="#">编辑</a>|<a href="#">删除</a>)</span>
+                        <p>${fns:formatDate(b.releaseTime,'yyyy-MM-dd HH:mm:ss' )}</p>
+                    </li>
+                </c:forEach>
             </ul>
             <ul class="pagination">
                 <li>
-                    <a href="#">Prev</a>
+                    <a href="#">上一页</a>
                 </li>
                 <li>
                     <a href="#">1</a>
@@ -130,7 +113,7 @@
                     <a href="#">5</a>
                 </li>
                 <li>
-                    <a href="#">Next</a>
+                    <a href="#">下一页</a>
                 </li>
             </ul>
         </div>
