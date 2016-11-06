@@ -49,12 +49,18 @@
     <mvc:view-controller path="/" view-name="redirect:${web.views.index}"/>
 
    <!--注册拦截器-->
-    <!--<mvc:interceptors>
+    <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/login"/>
-            <bean class="org.feiyu.myblog.admin.interceptor.TestInterceptor"/>
+            <mvc:mapping path="/user/*"/>
+            <mvc:exclude-mapping path="/user/toLogin"/>
+            <mvc:exclude-mapping path="/user/login"/>
+            <bean class="org.feiyu.myblog.admin.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
-    </mvc:interceptors>-->
+        <mvc:interceptor>
+            <mvc:mapping path="/blog/*"/>
+            <bean class="org.feiyu.myblog.admin.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <!-- 上传文件拦截，设置最大上传文件大小   10M=10*1024*1024(B)=10485760 bytes -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

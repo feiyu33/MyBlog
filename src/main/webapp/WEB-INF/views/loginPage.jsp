@@ -5,14 +5,12 @@
   Time: 15:40
   To change this template use File | Settings | File Templates.
 --%>
-<!DOCTYPE html>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 
 <html>
 <head>
-    <meta charset="utf-8">
     <title>登录系统</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
