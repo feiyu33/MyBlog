@@ -41,14 +41,28 @@ public interface BlogDao {
     /**
      * @title: getListByPage
      * Create By feiyu
-     * @description: 分页查询博文
+     * @description: 分页查询博文(以时间排序)
      * @params:  * @param currentPage 当前页
      * @param pageNumber 每页显示条数
+     * @param isRead 是否可读
      * @Date: 2016/10/29
      * @return: list 数据集合
      */
-    List<Blog> getListByPage(@Param("currentPage") int currentPage, @Param("pageNumber") int pageNumber, @Param("isRead")int isRead);
-    
+    List<Blog> getNewListByPage(@Param("currentPage") int currentPage, @Param("pageNumber") int pageNumber,
+                                @Param("isRead")int isRead,@Param("isDraft") int isDraft);
+
+    /**
+     * @title: getHotListByPage
+     * Create By feiyu
+     * @description: 分页查询博文（以浏览量排序）
+     * @params:  * @param currentPage 当前页
+     * @param pageNumber 每页显示条数
+     * @param isRead 是否可读
+     * @Date: 2016/11/15
+     * @return: list 数据集合
+     */
+    List<Blog> getHotListByPage(@Param("currentPage") int currentPage, @Param("pageNumber") int pageNumber,
+                                @Param("isRead")int isRead,@Param("isDraft") int isDraft);
     /**
      * @title: update
      * Create By feiyu
@@ -116,7 +130,11 @@ public interface BlogDao {
      * @Date: 2016/11/1
      * @return:
      */
-    List<Blog> getListByClassification(@Param("classification") String classification,@Param("currentPage") int currentPage,@Param("pageNumber") int pageNumber,@Param("isRead") int isRead);
+    List<Blog> getListByClassification(@Param("classification") String classification,
+                                       @Param("currentPage") int currentPage,
+                                       @Param("pageNumber") int pageNumber,
+                                       @Param("isRead") int isRead,
+                                       @Param("isDraft") int isDraft);
 
     /**
      * @title: getDraftCounts
@@ -127,4 +145,16 @@ public interface BlogDao {
      * @return: int 数量
      */
     int getDraftCounts(@Param("isDraft") int isDraft, @Param("isRead") int isRead);
+
+    /**
+     * @title: getListByKeyword
+     * Create By feiyu
+     * @description: 关键字查询（模糊查询）
+     * @params:  * @param keyword
+     * @param  isRead 是否可读
+     * @Date: 2016/11/16
+     * @return: list
+     */
+    List<Blog> getListByKeyword(@Param("keyword") String keyword, @Param("isRead") int isRead,
+                                @Param("isDraft") int isDraft);
 }

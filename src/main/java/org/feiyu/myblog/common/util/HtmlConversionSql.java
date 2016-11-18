@@ -11,7 +11,7 @@ package org.feiyu.myblog.common.util;/**
  */
 public class HtmlConversionSql {
 
-    public static String conversionSql(String sql){
+    public static String conversionSql(String html){
         /**
          * @title: Encode
          * Create By feiyu
@@ -20,17 +20,17 @@ public class HtmlConversionSql {
          * @Date: 2016/10/24
          * @return: java.lang.String
          */
-        sql = sql.replace("'", "''");
-        sql = sql.replace("\"", "&quot;");
-        sql = sql.replace("<", "&lt;");
-        sql = sql.replace(">", "&gt;");
-        sql = sql.replace("\n", "<br>");
-        sql = sql.replace("“", "&ldquo;");
-        sql = sql.replace("”", "&rdquo;");
-        return sql;
+        html = html.replace("'", "''");
+        html = html.replace("\"", "&quot;");
+        html = html.replace("<", "&lt;");
+        html = html.replace(">", "&gt;");
+        html = html.replace("\n", "<br>");
+        html = html.replace("“", "&ldquo;");
+        html = html.replace("”", "&rdquo;");
+        return html;
     }
 
-    public static String conversionHtml(String str) {
+    public static String conversionHtml(String sql) {
         /**
          * @title: conversionHtml
          * Create By feiyu
@@ -39,14 +39,13 @@ public class HtmlConversionSql {
          * @Date: 2016/10/24
          * @return: java.lang.String
          */
-        str = str.replace("&rdquo;", "”");
-        str = str.replace("&ldquo;", "“");
-        str = str.replace("<br>", "\n");
-        str = str.replace("&gt;", ">");
-        str = str.replace("&lt;", "<");
-        str = str.replace("&quot;", "\"");
-        str = str.replace("''", "'");
-
-        return str;
+        sql = sql.replace("&rdquo;", "”");
+        sql = sql.replace("&ldquo;", "“");
+        sql = sql.replace("<br>", " ");
+        sql = sql.replace("&gt;", ">");
+        sql = sql.replace("&lt;", "<");
+        sql = sql.replace("&quot;", "'\'");
+        sql = sql.replace("''", "'");
+        return sql;
     }
 }

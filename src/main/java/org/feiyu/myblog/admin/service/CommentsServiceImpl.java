@@ -41,8 +41,12 @@ public class CommentsServiceImpl implements CommentsService{
         PageWrap<Comments> commentsPageWrap = new PageWrap<Comments>();
         commentsPageWrap.setCounts(commentsDao.getTotalCounts(blogId));
         commentsPageWrap.setCurrentPage(currentPage);
-        commentsPageWrap.setData(commentsDao.getListByBlogId(blogId,currentPage, Integer.parseInt(SystemConfig.getConfig("page_number"))));
+        commentsPageWrap.setData(commentsDao.getListByBlogId(blogId,currentPage, Integer.parseInt(SystemConfig.getConfig("comment.number"))));
 
         return commentsPageWrap;
+    }
+
+    public int getCountsByBlogId(String bid) throws Exception {
+        return commentsDao.getTotalCounts(bid);
     }
 }

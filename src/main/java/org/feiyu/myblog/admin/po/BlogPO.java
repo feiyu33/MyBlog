@@ -21,11 +21,15 @@ public class BlogPO {
     /**评论集合**/
     private PageWrap<Comments> comments;
 
+    /**评论次数**/
+    private int commentCounts;
+
     public BlogPO(){}
 
-    public BlogPO(Blog blog, PageWrap<Comments> comments) {
+    public BlogPO(Blog blog, PageWrap<Comments> comments,int commentCounts) {
         this.blog = blog;
         this.comments = comments;
+        this.commentCounts = commentCounts;
     }
 
     public Blog getBlog() {
@@ -44,11 +48,20 @@ public class BlogPO {
         this.comments = comments;
     }
 
+    public int getCommentCounts() {
+        return commentCounts;
+    }
+
+    public void setCommentCounts(int commentCounts) {
+        this.commentCounts = commentCounts;
+    }
+
     @Override
     public String toString() {
         return "BlogPO{" +
                 "blog=" + blog +
                 ", comments=" + comments +
+                ", commentCounts=" + commentCounts +
                 '}';
     }
 }

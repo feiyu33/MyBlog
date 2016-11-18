@@ -44,5 +44,15 @@ public interface CommentsService {
      * @return:
      */
     PageWrap<Comments> getListByBlogId(String blogId, int currentPage) throws Exception;
+
+    /**
+     * @title: getCountsByBlogId
+     * Create By feiyu
+     * @description: 根据博文id查询博文评论数
+     * @params:  * @param bid
+     * @Date: 2016/11/7
+     * @return: int 评论数
+     */
+    int getCountsByBlogId(String bid) throws Exception;
     
 }

@@ -28,14 +28,14 @@
                userName,
                email,
                blog_id,
-               comments_time
+               comment_time
         FROM comments
         WHERE blog_id = #{blogId}
-        ORDER BY comments_time DESC
+        ORDER BY comment_time DESC
         LIMIT #{currentPage},#{pageNumber}
     </select>
 
-    <select id="getTotalCounts">
+    <select id="getTotalCounts" resultType="int">
         SELECT COUNT(*) FROM comments WHERE blog_id = #{bid}
     </select>
 </mapper>

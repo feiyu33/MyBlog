@@ -20,7 +20,7 @@
         WHERE dict_type = #{type}
     </select>
 
-    <select id="getByValue">
+    <select id="getByValue" resultType="DictEntity">
         SELECT id,
                dict_type,
                dict_value,

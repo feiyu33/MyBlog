@@ -3,6 +3,7 @@ package org.feiyu.myblog.admin.service;/**
  */
 
 import org.feiyu.myblog.admin.entity.Blog;
+import org.feiyu.myblog.admin.po.BlogPO;
 import org.feiyu.myblog.admin.po.ClassificationPO;
 import org.feiyu.myblog.common.po.PageWrap;
 
@@ -46,7 +47,7 @@ public interface BlogService {
      * @Date: 2016/10/29
      * @return: list 博文集合
      */
-    PageWrap<Blog> getListByPage(int currentPage) throws Exception;
+    PageWrap<BlogPO> getListByPage(int currentPage,String flag) throws Exception;
 
     /**
      * @title: update
@@ -56,7 +57,7 @@ public interface BlogService {
      * @Date: 2016/10/29
      * @return: Boolean是否修改成功
      */
-    boolean update(Blog blog) throws Exception;
+    boolean update(Blog blog,int isDraft) throws Exception;
 
     /**
      * @title: addReadCounts
@@ -81,13 +82,23 @@ public interface BlogService {
     /**
      * @title: getById
      * Create By feiyu
-     * @description: 通过博客id获取博客详情
-     * @params:  * @param bid、
+     * @description: 通过博客id获取博客详情及评论等信息
+     * @params:  * @param bid
+     * @param currentPage
      * @Date: 2016/10/29
-     * @return: Blog
+     * @return: BlogPO
+     */
+    BlogPO getById(String bid, int currentPage) throws Exception;
+
+    /**
+     * @title: getById
+     * Create By feiyu
+     * @description: 根据博文id获取博文详情
+     * @params: bid
+     * @Date: 2016/11/15
+     * @return: blog
      */
     Blog getById(String bid) throws Exception;
-
 
     /**
      * @title: getCountsByClassification
@@ -108,7 +119,7 @@ public interface BlogService {
      * @Date: 2016/11/1
      * @return:
      */
-    PageWrap<Blog> getListByClassification(String classification, int currentPage) throws Exception;
+    PageWrap<BlogPO> getListByClassification(String classification, int currentPage) throws Exception;
 
     /**
      * @title: getDraftCounts
@@ -119,4 +130,15 @@ public interface BlogService {
      * @return: int 数量
      */
     int getDraftCounts() throws Exception;
+
+    /**
+     * @title: getListByKeyword
+     * Create By feiyu
+     * @description: 根据关键字查询博文列表
+     * @params:  * @param keyword 关键字
+     * @param currentPage 当前页
+     * @Date: 2016/11/16
+     * @return: pagewrap
+     */
+    List<BlogPO> getListByKeyword(String keyword) throws Exception;
 }

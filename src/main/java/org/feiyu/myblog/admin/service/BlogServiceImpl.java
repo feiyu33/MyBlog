@@ -6,9 +6,11 @@ import org.feiyu.myblog.admin.dao.BlogDao;
 import org.feiyu.myblog.admin.dao.DictEntityDao;
 import org.feiyu.myblog.admin.entity.Blog;
 import org.feiyu.myblog.admin.entity.DictEntity;
+import org.feiyu.myblog.admin.po.BlogPO;
 import org.feiyu.myblog.admin.po.ClassificationPO;
 import org.feiyu.myblog.common.po.PageWrap;
 import org.feiyu.myblog.common.po.SystemConstant;
+import org.feiyu.myblog.common.service.PackListService;
 import org.feiyu.myblog.common.util.HtmlConversionSql;
 import org.feiyu.myblog.common.util.IdGen;
 import org.feiyu.myblog.common.util.SystemConfig;
@@ -39,6 +41,15 @@ public class BlogServiceImpl implements BlogService {
     @Resource
     private DictEntityDao dictEntityDao;
 
+    @Resource
+    private CommentsService commentsService;
+
+    @Resource
+    private DictEntityService dictEntityService;
+
+    @Resource
+    private PackListService packListService;
+
     public boolean addOrDraft(Blog blog,int isDraft)  throws Exception{
         blog.setId(IdGen.uuId());
         blog.setReleaseTime(new Date());
@@ -46,7 +57,7 @@ public class BlogServiceImpl implements BlogService {
         blog.setThumbUpNumber(0);
         blog.setReadCounts(0);
         blog.setIsDraft(isDraft);
-        blog.setContent(HtmlConversionSql.conversionHtml(blog.getContent()));
+        blog.setContent(HtmlConversionSql.conversionSql(blog.getContent()));
         int rows = blogDao.add(blog);
         return rows == 1 ? true : false;
     }
@@ -56,18 +67,36 @@ public class BlogServiceImpl implements BlogService {
         return rows == 1 ? true : false;
     }
 
-    public PageWrap<Blog> getListByPage(int currentPage)  throws Exception{
-        PageWrap<Blog> pageWrap = new PageWrap<Blog>();
+    public PageWrap<BlogPO> getListByPage(int currentPage,String flag)  throws Exception{
+
+
+        //获取分页博文信息集合
+        List<Blog> blogs = new ArrayList<Blog>();
+        if ("new".equals(flag)){
+            blogs = blogDao.getNewListByPage(currentPage-1,
+                    Integer.parseInt(SystemConfig.getConfig("page.number").trim()),
+                    SystemConstant.IS_READ,SystemConstant.NOT_DRAFT);
+        }
+        if ("hot".equals(flag)){
+            blogs = blogDao.getHotListByPage(currentPage-1,
+                    Integer.parseInt(SystemConfig.getConfig("page.number").trim()),
+                    SystemConstant.IS_READ,SystemConstant.NOT_DRAFT);
+        }
+        //包装BlogPO实体集合
+        List<BlogPO> blogPOs = packListService.packBlogPOList(blogs);
+
+        PageWrap<BlogPO> pageWrap = new PageWrap<BlogPO>();
         pageWrap.setCurrentPage(currentPage);
         pageWrap.setCounts(blogDao.getTotalCounts(SystemConstant.IS_READ));
-        pageWrap.setData(blogDao.getListByPage(currentPage-1,
-                Integer.parseInt(SystemConfig.getConfig("page.number").trim()),
-                SystemConstant.IS_READ));
+        pageWrap.setData(blogPOs);
 
         return pageWrap;
     }
 
-    public boolean update(Blog blog) throws Exception{
+    public boolean update(Blog blog,int isDraft) throws Exception{
+        blog.setReleaseTime(new Date());
+        blog.setIsDraft(isDraft);
+        blog.setContent(HtmlConversionSql.conversionSql(blog.getContent()));
         int rows = blogDao.update(blog);
         return rows == 1 ? true : false;
     }
@@ -82,7 +111,22 @@ public class BlogServiceImpl implements BlogService {
         return rows == 1 ? true : false;
     }
 
-    public Blog getById(String bid)  throws Exception{
+    public BlogPO getById(String bid,int currentPage)  throws Exception{
+        BlogPO blogPO = new BlogPO();
+        //根据id查询到博文信息
+        Blog blog = blogDao.getById(bid);
+        //转化博文内容
+        blog.setContent(HtmlConversionSql.conversionHtml(blog.getContent()));
+        //将博文分类编码转换为对应的分类
+        DictEntity dictEntity = dictEntityService.getByValue(blog.getClassification());
+        blog.setClassification(dictEntity.getDictName());
+        blogPO.setBlog(blog);
+        blogPO.setCommentCounts(commentsService.getCountsByBlogId(bid));
+        blogPO.setComments(commentsService.getListByBlogId(bid,currentPage));
+        return blogPO;
+    }
+
+    public Blog getById(String bid) throws Exception {
         return blogDao.getById(bid);
     }
 
@@ -100,16 +144,30 @@ public class BlogServiceImpl implements BlogService {
         return classificationPOs;
     }
 
-    public PageWrap<Blog> getListByClassification(String classification, int currentPage) throws Exception {
-        PageWrap<Blog> blogPageWrap = new PageWrap<Blog>();
+    public PageWrap<BlogPO> getListByClassification(String classification, int currentPage) throws Exception {
+
+        //获取分页博文信息集合
+        List<Blog> blogs = blogDao.getListByClassification(classification,
+                currentPage,Integer.parseInt(SystemConfig.getConfig("page.number")),
+                SystemConstant.IS_READ,SystemConstant.NOT_DRAFT);
+        //包装BlogPO实体集合
+        List<BlogPO> blogPOs = packListService.packBlogPOList(blogs);
+
+        PageWrap<BlogPO> blogPageWrap = new PageWrap<BlogPO>();
         blogPageWrap.setCurrentPage(currentPage);
         blogPageWrap.setCounts(blogDao.getCountsByClassification(classification,SystemConstant.IS_READ));
-        blogPageWrap.setData(blogDao.getListByClassification(classification,currentPage,Integer.parseInt(SystemConfig.getConfig("page.number")),SystemConstant.IS_READ));
-
+        blogPageWrap.setData(blogPOs);
         return blogPageWrap;
     }
 
     public int getDraftCounts() throws  Exception{
         return blogDao.getDraftCounts(SystemConstant.IS_DRAFT,SystemConstant.IS_READ);
+    }
+
+    public List<BlogPO> getListByKeyword(String keyword) throws Exception {
+        //分页获取博文信息
+        List<Blog> blogs = blogDao.getListByKeyword(keyword, SystemConstant.IS_READ,SystemConstant.NOT_DRAFT);
+        List<BlogPO> blogPOs = packListService.packBlogPOList(blogs);
+        return blogPOs;
     }
 }

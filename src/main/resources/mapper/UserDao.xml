@@ -20,7 +20,6 @@
         UPDATE admin
         SET userName = #{user.userName},
             email = #{user.email},
-            image_url = #{user.imageUrl},
             present_address = #{user.presentAddress},
             diploma = #{user.diploma},
             labels = #{user.labels}

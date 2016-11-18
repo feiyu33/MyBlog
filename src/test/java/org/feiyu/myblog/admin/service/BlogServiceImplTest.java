@@ -87,7 +87,6 @@ public class BlogServiceImplTest {
      */
     @Test
     public void testGetById() throws Exception {
-        Blog blog = blogService.getById("01f872250c2b4fe8b910782c16019153");
-        System.out.println(blog.getReleaseTime());
+
     }
 } 

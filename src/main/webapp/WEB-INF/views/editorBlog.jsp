@@ -10,7 +10,7 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <html>
 <head>
-    <title>写博客</title>
+    <title>编辑博文</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link href="http://cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.css" rel="stylesheet">
     <link href="http://cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
@@ -28,29 +28,30 @@
 </head>
 <body>
 <div class="container" style="margin-top: 20px">
-    <a href="${path}/blog/showAdmin" style="font-size: 20px">${name}的博客</a>>写博客<br>
+    <a href="${path}/blog/showAdmin" style="font-size: 20px">${name}的博客</a>>编辑博客<br>
     <div class="row clearfix">
         <div class="col-md-12 column">
-            <form role="form" action="${path}/blog/publish" method="post">
+            <form role="form" action="${path}/blog/update" method="post">
+                <input type="hidden" name="id" value="${blog.id}">
                 <div class="form-group">
                     <label for="title">标题</label><input type="text" class="form-control" id="title" name="title"
-                                                        placeholder="请输入博文标题"/>
+                                                        value="${blog.title}" placeholder="请输入博文标题"/>
                 </div>
                 <div class="form-group">
                     <label for="classification">分类</label>
                     <select class="form-control" id="classification" name="classification">
                         <c:forEach items="${classifications}" var="c">
-                            <option value="${c.dictValue}">${c.dictName}</option>
+                            <option value="${c.dictValue}" ${blog.classification == c.dictValue ? "selected ='selected'" :""} >${c.dictName}</option>
                         </c:forEach>
                     </select>
                 </div>
 
-                <textarea id="editor1" class="ckeditor" name="content">博文内容</textarea>
+                <textarea id="editor1" class="ckeditor" name="content">${blog.content}</textarea>
 
                 <div class="form-select-button">
                     <label>是否允许评论</label>
-                    <input type="radio" name="isComments" value="0" checked>是
-                    <input type="radio" name="isComments" value="1">否
+                    <input type="radio" name="isComments" value="0" ${blog.isComments == 0 ? "checked='checked'" : ""}>是
+                    <input type="radio" name="isComments" value="1" ${blog.isComments == 1 ? "checked='checked'" : ""}>否
                 </div>
                 <div class="btn-toolbar" role="toolbar">
                     <div class="btn-group">
