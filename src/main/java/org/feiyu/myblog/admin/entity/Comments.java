@@ -29,17 +29,17 @@ public class Comments {
     private String blogId;
 
     /**评论时间**/
-    private Date commontTime;
+    private Date commentTime;
 
     public Comments(){}
 
-    public Comments(String id, String comments, String userName, String email, String blogId, Date commontTime) {
+    public Comments(String id, String comments, String userName, String email, String blogId, Date commentTime) {
         this.id = id;
         this.comments = comments;
         this.userName = userName;
         this.email = email;
         this.blogId = blogId;
-        this.commontTime = commontTime;
+        this.commentTime = commentTime;
     }
 
     public String getId() {
@@ -82,12 +82,12 @@ public class Comments {
         this.blogId = blogId;
     }
 
-    public Date getCommontTime() {
-        return commontTime;
+    public Date getCommentTime() {
+        return commentTime;
     }
 
-    public void setCommontTime(Date commontTime) {
-        this.commontTime = commontTime;
+    public void setCommentTime(Date commentTime) {
+        this.commentTime = commentTime;
     }
 
     @Override
@@ -98,7 +98,7 @@ public class Comments {
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
                 ", blogId='" + blogId + '\'' +
-                ", commontTime=" + commontTime +
+                ", commontTime=" + commentTime +
                 '}';
     }
 }

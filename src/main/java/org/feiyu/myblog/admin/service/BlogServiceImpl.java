@@ -72,22 +72,29 @@ public class BlogServiceImpl implements BlogService {
 
         //获取分页博文信息集合
         List<Blog> blogs = new ArrayList<Blog>();
+
+        PageWrap<BlogPO> pageWrap = new PageWrap<BlogPO>();
+        pageWrap.setCounts(blogDao.getDraftCounts(SystemConstant.NOT_DRAFT,SystemConstant.IS_READ));
         if ("new".equals(flag)){
             blogs = blogDao.getNewListByPage(currentPage-1,
                     Integer.parseInt(SystemConfig.getConfig("page.number").trim()),
                     SystemConstant.IS_READ,SystemConstant.NOT_DRAFT);
         }
-        if ("hot".equals(flag)){
+        else if ("hot".equals(flag)){
             blogs = blogDao.getHotListByPage(currentPage-1,
                     Integer.parseInt(SystemConfig.getConfig("page.number").trim()),
                     SystemConstant.IS_READ,SystemConstant.NOT_DRAFT);
         }
+        else {
+            blogs = blogDao.getNewListByPage(currentPage-1,
+                    Integer.parseInt(SystemConfig.getConfig("page.number").trim()),
+                    SystemConstant.IS_READ,SystemConstant.IS_DRAFT);
+            pageWrap.setCounts(blogDao.getDraftCounts(SystemConstant.IS_DRAFT,SystemConstant.IS_READ));
+        }
         //包装BlogPO实体集合
         List<BlogPO> blogPOs = packListService.packBlogPOList(blogs);
 
-        PageWrap<BlogPO> pageWrap = new PageWrap<BlogPO>();
         pageWrap.setCurrentPage(currentPage);
-        pageWrap.setCounts(blogDao.getTotalCounts(SystemConstant.IS_READ));
         pageWrap.setData(blogPOs);
 
         return pageWrap;
@@ -111,7 +118,7 @@ public class BlogServiceImpl implements BlogService {
         return rows == 1 ? true : false;
     }
 
-    public BlogPO getById(String bid,int currentPage)  throws Exception{
+    public BlogPO getListById(String bid)  throws Exception{
         BlogPO blogPO = new BlogPO();
         //根据id查询到博文信息
         Blog blog = blogDao.getById(bid);
@@ -122,7 +129,7 @@ public class BlogServiceImpl implements BlogService {
         blog.setClassification(dictEntity.getDictName());
         blogPO.setBlog(blog);
         blogPO.setCommentCounts(commentsService.getCountsByBlogId(bid));
-        blogPO.setComments(commentsService.getListByBlogId(bid,currentPage));
+        blogPO.setComments(commentsService.getListByBlogId(bid));
         return blogPO;
     }
 
@@ -148,7 +155,7 @@ public class BlogServiceImpl implements BlogService {
 
         //获取分页博文信息集合
         List<Blog> blogs = blogDao.getListByClassification(classification,
-                currentPage,Integer.parseInt(SystemConfig.getConfig("page.number")),
+                currentPage-1,Integer.parseInt(SystemConfig.getConfig("page.number")),
                 SystemConstant.IS_READ,SystemConstant.NOT_DRAFT);
         //包装BlogPO实体集合
         List<BlogPO> blogPOs = packListService.packBlogPOList(blogs);

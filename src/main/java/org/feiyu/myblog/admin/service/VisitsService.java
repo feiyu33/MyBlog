@@ -45,5 +45,14 @@ public interface VisitsService {
      */
     boolean update() throws Exception;
 
+    /**
+     * @title: get
+     * Create By feiyu
+     * @description: 得到浏览实体
+     * @params:  * @param null
+     * @Date: 2016/11/21
+     * @return: 
+     */
+    Visits get() throws Exception;
 
 }

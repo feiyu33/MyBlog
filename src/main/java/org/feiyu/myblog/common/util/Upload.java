@@ -58,7 +58,7 @@ public class Upload {
                     File oldfile = new File(path);
                     File newfile = new File(filePath+"/"+id+fileType);
                     oldfile.renameTo(newfile);
-                    //上传
+                    //上传并将文件信息放入map
                     file.transferTo(newfile);
                     map.put("id", id);
                     map.put("fileName",id+fileType);

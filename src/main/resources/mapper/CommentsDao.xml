@@ -31,8 +31,7 @@
                comment_time
         FROM comments
         WHERE blog_id = #{blogId}
-        ORDER BY comment_time DESC
-        LIMIT #{currentPage},#{pageNumber}
+        ORDER BY comment_time ASC
     </select>
 
     <select id="getTotalCounts" resultType="int">

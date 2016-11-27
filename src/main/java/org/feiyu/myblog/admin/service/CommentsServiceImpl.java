@@ -5,6 +5,7 @@ package org.feiyu.myblog.admin.service;/**
 import org.feiyu.myblog.admin.dao.CommentsDao;
 import org.feiyu.myblog.admin.entity.Comments;
 import org.feiyu.myblog.common.po.PageWrap;
+import org.feiyu.myblog.common.util.IdGen;
 import org.feiyu.myblog.common.util.SystemConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author feiyu
@@ -28,6 +31,8 @@ public class CommentsServiceImpl implements CommentsService{
     private CommentsDao commentsDao;
 
     public boolean add(Comments comments)  throws Exception{
+        comments.setId(IdGen.uuId());
+        comments.setCommentTime(new Date());
         int rows = commentsDao.add(comments);
         return rows == 1 ? true : false;
     }
@@ -37,13 +42,8 @@ public class CommentsServiceImpl implements CommentsService{
         return rows == 1 ? true : false;
     }
 
-    public PageWrap<Comments> getListByBlogId(String blogId, int currentPage) throws Exception {
-        PageWrap<Comments> commentsPageWrap = new PageWrap<Comments>();
-        commentsPageWrap.setCounts(commentsDao.getTotalCounts(blogId));
-        commentsPageWrap.setCurrentPage(currentPage);
-        commentsPageWrap.setData(commentsDao.getListByBlogId(blogId,currentPage, Integer.parseInt(SystemConfig.getConfig("comment.number"))));
-
-        return commentsPageWrap;
+    public List<Comments> getListByBlogId(String blogId) throws Exception {
+        return commentsDao.getListByBlogId(blogId);
     }
 
     public int getCountsByBlogId(String bid) throws Exception {

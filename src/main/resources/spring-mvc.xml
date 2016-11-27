@@ -58,6 +58,7 @@
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/blog/*"/>
+            <mvc:exclude-mapping path="/blog/turnPage"/>
             <bean class="org.feiyu.myblog.admin.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

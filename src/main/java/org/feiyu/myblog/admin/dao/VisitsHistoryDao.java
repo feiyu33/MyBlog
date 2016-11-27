@@ -45,4 +45,14 @@ public interface VisitsHistoryDao {
      * @return: int 历史浏览次数
      */
     int get();
+
+    /**
+     * @title: getVisitsHistory
+     * Create By feiyu
+     * @description: 得到历史浏览实体
+     * @params:  * @param null
+     * @Date: 2016/11/21
+     * @return:
+     */
+    VisitsHistory getVisitsHistory();
 }

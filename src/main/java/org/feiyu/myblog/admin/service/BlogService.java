@@ -42,7 +42,7 @@ public interface BlogService {
     /**
      * @title: getListByPage
      * Create By feiyu
-     * @description: 分页查询博文信息
+     * @description: 根据标签分页查询博文信息
      * @params:  * @param currentPage
      * @Date: 2016/10/29
      * @return: list 博文集合
@@ -80,15 +80,14 @@ public interface BlogService {
     boolean addThumbUpCounts(String bid) throws Exception;
 
     /**
-     * @title: getById
+     * @title: getListById
      * Create By feiyu
      * @description: 通过博客id获取博客详情及评论等信息
      * @params:  * @param bid
-     * @param currentPage
      * @Date: 2016/10/29
      * @return: BlogPO
      */
-    BlogPO getById(String bid, int currentPage) throws Exception;
+    BlogPO getListById(String bid) throws Exception;
 
     /**
      * @title: getById
@@ -136,7 +135,6 @@ public interface BlogService {
      * Create By feiyu
      * @description: 根据关键字查询博文列表
      * @params:  * @param keyword 关键字
-     * @param currentPage 当前页
      * @Date: 2016/11/16
      * @return: pagewrap
      */

@@ -157,4 +157,24 @@ public interface BlogDao {
      */
     List<Blog> getListByKeyword(@Param("keyword") String keyword, @Param("isRead") int isRead,
                                 @Param("isDraft") int isDraft);
+    /**
+     * @title: getReadingList
+     * Create By feiyu
+     * @description: 得到阅读排行博文信息
+     * @params:  * @param number 条数
+     * @Date: 2016/11/22
+     * @return: 
+     */
+    List<Blog> getReadingList(@Param("number") int number,
+                              @Param("isRead")int isRead,@Param("isDraft") int isDraft);
+    /**
+     * @title: getTopRanking
+     * Create By feiyu
+     * @description: 得到热门排行博文信息
+     * @params:  * @param null
+     * @Date: 2016/11/22
+     * @return: 
+     */
+    List<Blog> getTopRanking(@Param("number") int number,
+                             @Param("isRead")int isRead,@Param("isDraft") int isDraft);
 }

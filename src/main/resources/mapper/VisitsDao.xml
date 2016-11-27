@@ -3,28 +3,25 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.feiyu.myblog.admin.dao.VisitsDao">
-    <resultMap id="VisitsMap" type="Visits">
-        <id column="id" property="id"/>
-        <result column="visit_date" property="visitDate"/>
-        <result column="visit_date_counts" property="visitDateCounts"/>
-    </resultMap>
-
     <insert id="add" parameterType="Visits">
         INSERT ignore
         INTO visits(id,visit_date,visit_date_counts)
-        VALUES (#{viits.id},#{visits.visitDate},#{visits.visitDateCounts})
+        VALUES (#{visits.id},#{visits.visitDate},#{visits.visitDateCounts})
     </insert>
 
-    <select id="getCounts">
+    <select id="getCounts" resultType="int">
         SELECT visit_date_counts
         FROM visits
         WHERE visit_date = #{date}
     </select>
 
-    <select id="update">
+    <update id="update">
         UPDATE visits
-        SET visit_date_counts = visit_date_counts
+        SET visit_date_counts = visit_date_counts+1
         WHERE visit_date = #{date}
-    </select>
+    </update>
 
+    <select id="get" resultType="Visits">
+        SELECT * FROM visits WHERE visit_date = #{date}
+    </select>
 </mapper>

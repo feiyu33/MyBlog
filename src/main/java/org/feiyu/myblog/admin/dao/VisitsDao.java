@@ -48,4 +48,13 @@ public interface VisitsDao {
      */
     int update(Date date);
 
+    /**
+     * @title: get
+     * Create By feiyu
+     * @description: 得到浏览实体
+     * @params:  * @param date
+     * @Date: 2016/11/21
+     * @return:
+     */
+    Visits get(Date date);
 }

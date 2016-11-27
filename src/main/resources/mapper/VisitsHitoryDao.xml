@@ -15,8 +15,12 @@
         SET visits_history_counts = visits_history_counts+1
     </update>
 
-    <select id="get">
+    <select id="get" resultType="int">
         SELECT visits_history_counts
         FROM history_visits
+    </select>
+
+    <select id="getVisitsHistory" resultType="VisitsHistory">
+        SELECT * FROM history_visits
     </select>
 </mapper>

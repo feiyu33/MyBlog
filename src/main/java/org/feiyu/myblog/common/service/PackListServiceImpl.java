@@ -2,9 +2,14 @@ package org.feiyu.myblog.common.service;/**
  * Created by feiyu on 2016/11/9.
  */
 
+import org.dom4j.Attribute;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.feiyu.myblog.admin.entity.Blog;
 import org.feiyu.myblog.admin.po.BlogPO;
 import org.feiyu.myblog.admin.service.CommentsService;
+import org.feiyu.myblog.common.util.HtmlConversionSql;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -37,8 +42,13 @@ public class PackListServiceImpl implements PackListService{
 
         if (blogs.size()>=0 && blogs != null){
             for (int i = 0; i < blogs.size(); i++){
+                String img = HtmlConversionSql.conversionHtml(blogs.get(i).getContent());
+                String imgUrl =HtmlConversionSql.getImgStr(img).toString().replace("['","").replace("']","");
+
                 BlogPO blogPO = new BlogPO();
                 blogPO.setCommentCounts(commentsService.getCountsByBlogId(blogs.get(i).getId()));
+                blogPO.setImg(imgUrl);
+                blogs.get(i).setContent(HtmlConversionSql.conversionHtml(blogs.get(i).getContent()));
                 blogPO.setBlog(blogs.get(i));
                 blogPOs.add(blogPO);
             }

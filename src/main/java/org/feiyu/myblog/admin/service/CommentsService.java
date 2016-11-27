@@ -5,6 +5,8 @@ package org.feiyu.myblog.admin.service;/**
 import org.feiyu.myblog.admin.entity.Comments;
 import org.feiyu.myblog.common.po.PageWrap;
 
+import java.util.List;
+
 /**
  * @author feiyu
  * @version 1.0
@@ -39,11 +41,10 @@ public interface CommentsService {
      * Create By feiyu
      * @description: 根据博文id分页查询评论集合
      * @params:  * @param bid 博文id
-     * @param currentPage 当前页
      * @Date: 2016/10/30
      * @return:
      */
-    PageWrap<Comments> getListByBlogId(String blogId, int currentPage) throws Exception;
+    List<Comments> getListByBlogId(String blogId) throws Exception;
 
     /**
      * @title: getCountsByBlogId

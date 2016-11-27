@@ -29,4 +29,6 @@ public class SystemConstant {
     /**博文存为草稿**/
     public static final int IS_DRAFT = 1;
 
+    /**展示热门条数**/
+    public static int NUMBER = 8;
 }

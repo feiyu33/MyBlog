@@ -39,7 +39,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <label style="font-size: 15px;text-align: left"><span class="glyphicon glyphicon-thumbs-up" style="color: gray" aria-hidden="true"></span>  推荐(${blogPO.blog.thumbUpNumber})</label>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <label style="font-size: 15px">发布于 ${fns:formatDate(blogPO.blog.releaseTime, "yyyy-MM-dd hh:MM:ss")}</label>
+        <label style="font-size: 15px">发布于 ${fns:formatDate(blogPO.blog.releaseTime, "yyyy-MM-dd HH:mm:ss")}</label>
     </div>
     <hr>
     <div style="padding-top: 4px;padding-left: 10px;padding-right: 10px;text-align: center">
@@ -50,18 +50,19 @@
     <h3 style="padding-top: 10px">评论列表&nbsp;&nbsp;&nbsp;&nbsp;${blogPO.commentCounts}条</h3>
 
     <div style="padding-top: 10px;padding-left: 10px;padding-right: 10px">
-        <c:forEach items="${blogPO.comments.data}" var="b">
+        <c:forEach items="${blogPO.comments}" var="b">
             <%--<span style="color:black;width: 40px">楼</span>
             &nbsp;&nbsp;&nbsp;&nbsp;--%>
             <span class="glyphicon glyphicon-user" style="color: gray ;width:150px" aria-hidden="true">&nbsp;${b.userName}</span>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span class="glyphicon glyphicon-envelope" style="color: gray;width:300px" aria-hidden="true">&nbsp;${b.email}</span>
-            <div style="font-size:16px;padding: 20px 50px 10px 45px;">${b.data.content}</div>
+            <div style="font-size:16px;padding: 20px 50px 10px 45px;">${b.comments}</div>
             <div style="color:gray;float: right">
-                <i>评论于 ${fns:formatDate(b.commentTime, "yyyy-MM-dd hh:MM:ss")}</i>
+                <i>评论于 ${fns:formatDate(b.commentTime, "yyyy-MM-dd HH:mm:ss")}</i>
             </div>
             <hr>
         </c:forEach>
     </div>
+</div>
 </body>
 </html>

@@ -62,6 +62,7 @@
             content = #{blog.content},
             classification = #{blog.classification},
             is_comments = #{blog.isComments},
+            read_counts = #{blog.readCounts},
             is_draft = #{blog.isDraft},
             release_time = #{blog.releaseTime}
         WHERE id = #{blog.id}
@@ -69,7 +70,7 @@
 
     <update id="addReadCounts">
         UPDATE blog
-        SET read_counts = read_counts+1,
+        SET read_counts = read_counts+1
         WHERE id = #{bid}
     </update>
 
@@ -140,5 +141,33 @@
         WHERE title LIKE concat(concat('%',#{keyword}),'%')
         AND is_read = #{isRead} AND is_draft = #{isDraft}
         ORDER BY release_time DESC
+    </select>
+
+    <select id="getReadingList" resultMap="BlogMap">
+        SELECT id,
+        title,
+        content,
+        classification,
+        read_counts,
+        thumb_up_number,
+        release_time
+        FROM blog
+        WHERE is_read = #{isRead} AND is_draft = #{isDraft}
+        ORDER BY read_counts DESC
+        LIMIT 0,#{number}
+    </select>
+
+    <select id="getTopRanking" resultMap="BlogMap">
+        SELECT id,
+        title,
+        content,
+        classification,
+        read_counts,
+        thumb_up_number,
+        release_time
+        FROM blog
+        WHERE is_read = #{isRead} AND is_draft = #{isDraft}
+        ORDER BY thumb_up_number DESC
+        LIMIT 0,#{number}
     </select>
 </mapper>

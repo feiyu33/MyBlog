@@ -14,7 +14,6 @@ import org.feiyu.myblog.admin.service.DictEntityService;
 import org.feiyu.myblog.admin.service.UserService;
 import org.feiyu.myblog.common.po.PageWrap;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,7 +117,7 @@ public class BlogController {
     }
 
     @RequestMapping(value = "showDetails",method = RequestMethod.GET)
-    public ModelAndView showDetails(String bid,int currentPage){
+    public ModelAndView showDetails(String bid){
         /**
          * @title: showDetails
          * Create By feiyu
@@ -131,7 +129,7 @@ public class BlogController {
         ModelAndView mv = new ModelAndView();
         try {
             mv.setViewName("showDetails");
-            BlogPO blogPO = blogService.getById(bid,currentPage);
+            BlogPO blogPO = blogService.getListById(bid);
             mv.addObject("blogPO",blogPO);
         } catch (Exception e) {
             e.printStackTrace();
@@ -174,7 +172,8 @@ public class BlogController {
          */
         Map<String,Object> map = new HashMap<String,Object>();
         try {
-            PageWrap<BlogPO> blogPOPageWrap = blogService.getListByPage(currentPage,flag);
+            PageWrap<BlogPO> blogPOPageWrap;
+            blogPOPageWrap = blogService.getListByPage(currentPage,flag);
             blogPOPageWrap.setCurrentPage(currentPage);
             map.put("blogPOs",blogPOPageWrap);
         } catch (Exception e) {
@@ -251,5 +250,27 @@ public class BlogController {
             log.info("关键字查询错误"+e.getMessage());
         }
         return map;
+    }
+
+    @RequestMapping(value = "toDrafts",method = RequestMethod.GET)
+    public ModelAndView toDrafts(int currentPage){
+        /**
+         * @title: toDrafts
+         * Create By feiyu
+         * @description: 去草稿箱页面
+         * @params:  * @param
+         * @Date: 2016/11/18
+         * @return: org.springframework.web.servlet.ModelAndView
+         */
+        ModelAndView mv = new ModelAndView();
+        try {
+            PageWrap<BlogPO> blogPOPageWrap = blogService.getListByPage(currentPage,"");
+            mv.addObject("blogPageWrap",blogPOPageWrap);
+            mv.setViewName("drafts");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("获取草稿箱信息失败"+e.getMessage());
+        }
+        return mv;
     }
 }

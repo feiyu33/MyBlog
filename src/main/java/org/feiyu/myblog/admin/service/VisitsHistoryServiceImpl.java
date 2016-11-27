@@ -40,4 +40,8 @@ public class VisitsHistoryServiceImpl implements VisitsHistoryService{
     public int get() {
         return visitsHistoryDao.get();
     }
+
+    public VisitsHistory getVisitsHistory() {
+        return visitsHistoryDao.getVisitsHistory();
+    }
 }

@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 /**
  * @author feiyu
@@ -28,17 +27,21 @@ public class VisitsServiceImpl  implements VisitsService{
     private VisitsDao visitsDao;
 
     public boolean add() throws Exception {
-        Visits visits = new Visits(IdGen.uuId(),new Date(),0);
+        Visits visits = new Visits(IdGen.uuId(), new java.sql.Date(new java.util.Date().getTime()),0);
         int rows = visitsDao.add(visits);
         return rows == 1 ? true : false;
     }
 
     public int getCounts() throws Exception {
-        return visitsDao.getCounts(new Date());
+        return visitsDao.getCounts(new java.sql.Date(new java.util.Date().getTime()));
     }
 
     public boolean update() throws Exception {
-        int rows = visitsDao.update(new Date());
+        int rows = visitsDao.update(new java.sql.Date(new java.util.Date().getTime()));
         return rows == 1 ? true : false;
+    }
+
+    public Visits get() throws Exception {
+        return visitsDao.get(new java.sql.Date(new java.util.Date().getTime()));
     }
 }

@@ -42,12 +42,12 @@ public interface CommentsDao {
     /**
      * @title: getListByBlogId
      * Create By feiyu
-     * @description: 根据博文id分页查看评论列表
+     * @description: 根据博文id查看评论列表
      * @params:  * @param blogId
      * @Date: 2016/10/30
      * @return: list 评论集合
      */
-    List<Comments> getListByBlogId(@Param("blogId") String blogId, @Param("currentPage") int currentPage,@Param("pageNumber") int pageNumber);
+    List<Comments> getListByBlogId(@Param("blogId") String blogId);
 
     /**
      * @title: getTotalCounts

@@ -2,6 +2,8 @@ package org.feiyu.myblog.admin.service;/**
  * Created by feiyu on 2016/10/30.
  */
 
+import org.feiyu.myblog.admin.entity.VisitsHistory;
+
 /**
  * @author feiyu
  * @version 1.0
@@ -40,4 +42,14 @@ public interface VisitsHistoryService {
      * @return: int 历史访问次数
      */
     int get();
+
+    /**
+     * @title: getVisitsHistory
+     * Create By feiyu
+     * @description: 得到历史浏览实体
+     * @params:  * @param null
+     * @Date: 2016/11/21
+     * @return:
+     */
+    VisitsHistory getVisitsHistory();
 }
