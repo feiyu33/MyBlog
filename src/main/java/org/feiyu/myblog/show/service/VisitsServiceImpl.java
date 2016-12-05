@@ -52,7 +52,6 @@ public class VisitsServiceImpl implements VisitsService{
             visitsHistoryDao.add(visitsHistory1);
         }
         int rows = visitsHistoryDao.update();
-
         //获取当前日期浏览量
         Visits visits = visitsDao.get(new java.sql.Date(new java.util.Date().getTime()));
         if(visits == null){

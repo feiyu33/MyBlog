@@ -2,19 +2,14 @@ package org.feiyu.myblog.common.controller;/**
  * Created by feiyu on 2016/10/18.
  */
 
-import org.apache.commons.io.FileUtils;
-
 import org.apache.log4j.Logger;
 import org.feiyu.myblog.common.util.Upload;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 
 

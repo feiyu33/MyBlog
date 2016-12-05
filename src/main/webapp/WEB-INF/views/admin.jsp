@@ -28,6 +28,49 @@
     <script src="${path}/static/js/page.js"></script>
     <!--搜索和切换tab-->
     <script src="${path}/static/js/turnAndSerach.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#classifications tr td a").click(function () {
+                var currentPage = parseInt($("#currentPage").val());
+                var flag = this.id;
+                $("#flag").val(flag);
+                $.ajax({
+                    url:postPath+"/blog/turnPage",
+                    data:{
+                        "currentPage":currentPage,
+                        "flag":flag
+                    },
+                    dataType:'json',
+                    success:function (datas) {
+                        $("#blog").empty();
+                        var temp = "";
+                        if(datas.blogPOs.data.length == 0){
+                            temp += "<li><h1>暂无内容</h1></li>";
+                        }else{
+                            for (var i = 0; i < datas.blogPOs.data.length;i++){
+                                temp +="<li>"
+                                        +"<a href='${path}/blog/showDetails?bid="+datas.blogPOs.data[i].blog.id
+                                        +"&currentPage=1' style='font-family: italic;font-size: 18px;color:#1e90ff'>"+datas.blogPOs.data[i].blog.title+"</a><br/>"
+                                        +"<span>阅读("+datas.blogPOs.data[i].blog.readCounts+")&nbsp;&nbsp;·评论("+datas.blogPOs.data[i].commentCounts
+                                        +")&nbsp;&nbsp;·推荐("+datas.blogPOs.data[i].blog.thumbUpNumber+")&nbsp;&nbsp;·(<a href='${path}/blog/toEditor?bid="
+                                        +datas.blogPOs.data[i].blog.id+"'>编辑</a>|<a href='${path}/blog/delete?bid="+datas.blogPOs.data[i].blog.id
+                                        +"' onclick='return confirm('确定要删除吗？')'>删除</a>)</span>"
+                                        +"<p>"+getTime(datas.blogPOs.data[i].blog.releaseTime)+" 发布</p>"
+                                        +"</li>";
+                            }
+                        }
+                        $("#blog").append(temp);
+                        $("#currentPage").val(datas.blogPOs.currentPage);
+                    },
+                    error:function () {
+                        alert("请求错误，请重试！");
+                    }
+
+                })
+            })
+        })
+    </script>
 </head>
 <body>
 
@@ -55,11 +98,11 @@
                     </th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="classifications">
                 <c:forEach items="${classificationPOs}" var="c">
                     <tr>
                         <td>
-                            <a href="#">${c.dictEntity.dictName}</a>
+                            <a id="${c.dictEntity.dictValue}" style="text-decoration: none">${c.dictEntity.dictName}</a>
                         </td>
                         <td>
                                 ${c.blogCounts}
@@ -91,13 +134,18 @@
                 </div>
             </nav>
             <ul id="blog">
-                <c:forEach items="${blogPageWrap.data}" var="b">
-                    <li>
-                        <a href="${path}/blog/showDetails?bid=${b.blog.id}" style="font-family: italic;font-size: 18px;color:#1e90ff">${b.blog.title}</a><br/>
-                        <span>阅读(${b.blog.readCounts})&nbsp;&nbsp;·评论(${b.commentCounts})&nbsp;&nbsp;·推荐(${b.blog.thumbUpNumber})&nbsp;&nbsp;·(<a href="${path}/blog/toEditor?bid=${b.blog.id}">编辑</a>|<a href="${path}/blog/delete?bid=${b.blog.id}" onclick="return confirm('确定要删除吗？')">删除</a>)</span>
-                        <p>${fns:formatDate(b.blog.releaseTime,'yyyy-MM-dd HH:mm:ss' )} 发布</p>
-                    </li>
-                </c:forEach>
+                <c:if test="${blogPageWrap.data.size() == 0}">
+                    <li><h1>暂无内容</h1></li>
+                </c:if>
+                <c:if test="${blogPageWrap.data.size() != 0}">
+                    <c:forEach items="${blogPageWrap.data}" var="b">
+                        <li>
+                            <a href="${path}/blog/showDetails?bid=${b.blog.id}" style="font-family: italic;font-size: 18px;color:#1e90ff">${b.blog.title}</a><br/>
+                            <span>阅读(${b.blog.readCounts})&nbsp;&nbsp;·评论(${b.commentCounts})&nbsp;&nbsp;·推荐(${b.blog.thumbUpNumber})&nbsp;&nbsp;·(<a href="${path}/blog/toEditor?bid=${b.blog.id}">编辑</a>|<a href="${path}/blog/delete?bid=${b.blog.id}" onclick="return confirm('确定要删除吗？')">删除</a>)</span>
+                            <p>${fns:formatDate(b.blog.releaseTime,'yyyy-MM-dd HH:mm:ss' )} 发布</p>
+                        </li>
+                    </c:forEach>
+                </c:if>
             </ul>
             <%@include file="page.jsp"%>
         </div>

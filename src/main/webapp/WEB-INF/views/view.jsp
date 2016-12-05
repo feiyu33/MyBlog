@@ -21,14 +21,17 @@
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="http://cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.0.1/js/dropdown.js"></script>
+    <script src="${path}/static/js/timeUtilJs.js"></script>
+    <script src="${path}/static/js/showPage.js"></script>
 </head>
 <body>
 <%@include file="navigationBar.jsp"%>
 <div class="container">
     <div>
+        <input type="hidden" id="flag" value="${classification}">
         <div class="col-md-12 column" style="padding-left: 10%" >
             <div class="row clearfix" id="blogs">
-                <c:forEach items="${blogPOs}" var="b">
+                <c:forEach items="${blogPageWrap.data}" var="b">
                     <div class="col-md-12">
                         <div class="thumbnail">
                             <div class="caption">
@@ -70,8 +73,10 @@
                     </div>
                 </c:forEach>
             </div>
+            <%@include file="page.jsp"%>
         </div>
     </div>
+
 </div>
 </body>
 </html>

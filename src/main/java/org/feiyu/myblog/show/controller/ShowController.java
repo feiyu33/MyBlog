@@ -203,8 +203,8 @@ public class ShowController {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("view");
         try {
-            List<BlogPO> blogPOs = blogService.getListByKeyword(key);
-            mv.addObject("blogPOs",blogPOs);
+            PageWrap<BlogPO> blogPOs = blogService.getListByKeyword(key);
+            mv.addObject("blogPageWrap",blogPOs);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -226,7 +226,8 @@ public class ShowController {
         mv.setViewName("view");
         try {
             PageWrap<BlogPO> blogPOPageWrap = blogService.getListByClassification(classification,currentPage);
-            mv.addObject("blogPOs",blogPOPageWrap.getData());
+            mv.addObject("blogPageWrap",blogPOPageWrap);
+            mv.addObject("classification",classification);
         } catch (Exception e) {
             e.printStackTrace();
             log.info("根据分类查询博文列表失败"+e.getMessage());

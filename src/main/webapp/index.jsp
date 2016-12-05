@@ -3,11 +3,12 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <html>
 <head>
-    <title>test</title>
+    <title>博主首页</title>
     <script type="text/javascript"src="${path}/static/js/ckeditor/ckeditor.js"></script>
+    <meta http-equiv="refresh" content="0; URL=${path}/show/blogs">
 </head>
 <body>
-<div align="center">
+<%--<div align="center">
     <h1>上传文件</h1>
     <form method="post" action="file/uploadImg" enctype="multipart/form-data">
         <input type="file" name="file">
@@ -20,6 +21,6 @@
         <textarea id="editor1" class="ckeditor">Sample Text</textarea>
     </form>
 
-</div>
+</div>--%>
 </body>
 </html>

@@ -78,7 +78,6 @@ public class UserController {
         }
         //重新向带参，而且能隐藏参数，其原理就是放到session中，session在跳到页面后马上移除对象
         attributes.addFlashAttribute("msg","用户密码错误，请重新输入！");
-        Map<String, ?> ss = attributes.getFlashAttributes();
         return "redirect:/user/toLogin"; 
     }
     @RequestMapping(value = "showUser",method = RequestMethod.GET)

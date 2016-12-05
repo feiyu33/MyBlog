@@ -13,10 +13,10 @@
 </head>
 <body>
 <!-- 顶部导航 -->
-<nav class="navbar navbar-default navbar-static-top" role="navigation">
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation" style="background-color: #008B45">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="${path}/show/main">${user.userName}的博客</a>
+            <a class="navbar-brand" href="${path}/show/main" style="color: #dff1ff">${user.userName}的博客</a>
         </div>
 
         <div class="collapse navbar-collapse">

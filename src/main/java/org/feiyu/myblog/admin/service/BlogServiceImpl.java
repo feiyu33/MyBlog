@@ -171,10 +171,15 @@ public class BlogServiceImpl implements BlogService {
         return blogDao.getDraftCounts(SystemConstant.IS_DRAFT,SystemConstant.IS_READ);
     }
 
-    public List<BlogPO> getListByKeyword(String keyword) throws Exception {
+    public PageWrap<BlogPO> getListByKeyword(String keyword) throws Exception {
         //分页获取博文信息
         List<Blog> blogs = blogDao.getListByKeyword(keyword, SystemConstant.IS_READ,SystemConstant.NOT_DRAFT);
         List<BlogPO> blogPOs = packListService.packBlogPOList(blogs);
-        return blogPOs;
+
+        PageWrap<BlogPO> blogPageWrap = new PageWrap<BlogPO>();
+        blogPageWrap.setCurrentPage(1);
+        blogPageWrap.setCounts(blogs.size());
+        blogPageWrap.setData(blogPOs);
+        return blogPageWrap;
     }
 }

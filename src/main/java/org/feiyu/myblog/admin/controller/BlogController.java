@@ -173,8 +173,12 @@ public class BlogController {
         Map<String,Object> map = new HashMap<String,Object>();
         try {
             PageWrap<BlogPO> blogPOPageWrap;
-            blogPOPageWrap = blogService.getListByPage(currentPage,flag);
-            blogPOPageWrap.setCurrentPage(currentPage);
+            if(!"new".equals(flag) && !"hot".equals(flag) && flag != null && flag != ""){
+                blogPOPageWrap = blogService.getListByClassification(flag,currentPage);
+            }else{
+                blogPOPageWrap = blogService.getListByPage(currentPage,flag);
+
+            }
             map.put("blogPOs",blogPOPageWrap);
         } catch (Exception e) {
             e.printStackTrace();
@@ -243,8 +247,8 @@ public class BlogController {
          */
         Map<String,Object> map = new HashMap<String,Object>();
         try {
-            List<BlogPO> blogPOs = blogService.getListByKeyword(keyword);
-            map.put("blogPOs",blogPOs);
+            PageWrap<BlogPO> blogPOs = blogService.getListByKeyword(keyword);
+            map.put("blogPOs",blogPOs.getData());
         } catch (Exception e) {
             e.printStackTrace();
             log.info("关键字查询错误"+e.getMessage());

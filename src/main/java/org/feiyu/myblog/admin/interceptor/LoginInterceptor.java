@@ -2,8 +2,6 @@ package org.feiyu.myblog.admin.interceptor;/**
  * Created by feiyu on 2016/11/6.
  */
 
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 

@@ -33,6 +33,9 @@
     <input type="hidden" id="flag" value=""/>
     <div class="row clearfix" style="margin-top: 20px">
         <div class="col-md-12 column">
+            <c:if test="${blogPageWrap.data.size() == 0}">
+                <center><h1>暂无草稿</h1></center>
+            </c:if>
             <ul id="blog">
                 <c:forEach items="${blogPageWrap.data}" var="b">
                     <li>

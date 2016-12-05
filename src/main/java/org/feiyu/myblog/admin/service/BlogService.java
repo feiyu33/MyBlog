@@ -138,5 +138,5 @@ public interface BlogService {
      * @Date: 2016/11/16
      * @return: pagewrap
      */
-    List<BlogPO> getListByKeyword(String keyword) throws Exception;
+    PageWrap<BlogPO> getListByKeyword(String keyword) throws Exception;
 }

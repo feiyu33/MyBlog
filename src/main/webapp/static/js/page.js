@@ -15,6 +15,7 @@ function prePage(){
     var flag = $("#flag").val();
     if (currentPage <= 1){
         alert("当前已是第一页！");
+        return false;
     }else{
         $.ajax({
             url:postPath+"/blog/turnPage",
@@ -50,6 +51,7 @@ function nextPage() {
     var flag = $("#flag").val();
     if (currentPage >= totalPage){
         alert("当前已是最后一页！");
+        return false;
     }else{
         $.ajax({
             url:postPath+"/blog/turnPage",
@@ -90,7 +92,7 @@ $(function () {
         var page = this.innerHTML;
         var req = /^[0-9]*$/;
         if (!req.test(page)){
-            return;
+            alert("请输入正确的页码值");
         }else{
             $.ajax({
                 url:postPath+"/blog/turnPage",
@@ -124,3 +126,49 @@ $(function () {
         }
     })
 })
+function turnByPage() {
+    var flag = $("#flag").val();
+    var currentPage = parseInt($("#currentPage").val());
+    var totalPage = parseInt($("#totalPage").val());
+    var pages = parseInt($("#pages").val());
+    if (currentPage > totalPage){
+        alert("输入页码大于总页数");
+        $("#currentPage").val(pages);
+        return false;
+    }
+    var req = /^[0-9]*$/;
+    if (!req.test(currentPage)){
+        alert("请输入正确的页码值");
+        return false;
+    }else{
+        $.ajax({
+            url:postPath+"/blog/turnPage",
+            data:{
+                "currentPage":currentPage,
+                "flag":flag
+            },
+            dataType:'json',
+            success:function (datas) {
+                $("#blog").empty();
+                var temp = "";
+                for (var i = 0; i < datas.blogPOs.data.length;i++){
+                    temp +="<li>"
+                        +"<a href='${path}/blog/showDetails?bid="+datas.blogPOs.data[i].blog.id
+                        +"&currentPage=1' style='font-family: italic;font-size: 18px;color:#1e90ff'>"+datas.blogPOs.data[i].blog.title+"</a><br/>"
+                        +"<span>阅读("+datas.blogPOs.data[i].blog.readCounts+")&nbsp;&nbsp;·评论("+datas.blogPOs.data[i].commentCounts
+                        +")&nbsp;&nbsp;·推荐("+datas.blogPOs.data[i].blog.thumbUpNumber+")&nbsp;&nbsp;·(<a href='${path}/blog/toEditor?bid="
+                        +datas.blogPOs.data[i].blog.id+"'>编辑</a>|<a href='${path}/blog/delete?bid="+datas.blogPOs.data[i].blog.id
+                        +"' onclick='return confirm('确定要删除吗？')'>删除</a>)</span>"
+                        +"<p>"+getTime(datas.blogPOs.data[i].blog.releaseTime)+" 发布</p>"
+                        +"</li>"
+                }
+                $("#blog").append(temp);
+                $("#currentPage").val(datas.blogPOs.currentPage);
+            },
+            error:function () {
+                alert("请求错误，请重试！");
+            }
+
+        })
+    }
+}

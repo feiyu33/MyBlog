@@ -43,11 +43,11 @@ public class PackListServiceImpl implements PackListService{
         if (blogs.size()>=0 && blogs != null){
             for (int i = 0; i < blogs.size(); i++){
                 String img = HtmlConversionSql.conversionHtml(blogs.get(i).getContent());
-                String imgUrl =HtmlConversionSql.getImgStr(img).toString().replace("['","").replace("']","");
-
+                String imgUrls = HtmlConversionSql.getImgStr(img).toString().replace("['","").replace("']","");
+                String imgUrl[] = imgUrls.split(",");
                 BlogPO blogPO = new BlogPO();
                 blogPO.setCommentCounts(commentsService.getCountsByBlogId(blogs.get(i).getId()));
-                blogPO.setImg(imgUrl);
+                blogPO.setImg(imgUrl[0].replace("'",""));
                 blogs.get(i).setContent(HtmlConversionSql.conversionHtml(blogs.get(i).getContent()));
                 blogPO.setBlog(blogs.get(i));
                 blogPOs.add(blogPO);
