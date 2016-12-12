@@ -75,18 +75,19 @@ public class BlogServiceImpl implements BlogService {
 
         PageWrap<BlogPO> pageWrap = new PageWrap<BlogPO>();
         pageWrap.setCounts(blogDao.getDraftCounts(SystemConstant.NOT_DRAFT,SystemConstant.IS_READ));
+        int index = (currentPage - 1) * Integer.parseInt(SystemConfig.getConfig("page.number").trim());
         if ("new".equals(flag)){
-            blogs = blogDao.getNewListByPage(currentPage-1,
+            blogs = blogDao.getNewListByPage(index,
                     Integer.parseInt(SystemConfig.getConfig("page.number").trim()),
                     SystemConstant.IS_READ,SystemConstant.NOT_DRAFT);
         }
         else if ("hot".equals(flag)){
-            blogs = blogDao.getHotListByPage(currentPage-1,
+            blogs = blogDao.getHotListByPage(index,
                     Integer.parseInt(SystemConfig.getConfig("page.number").trim()),
                     SystemConstant.IS_READ,SystemConstant.NOT_DRAFT);
         }
         else {
-            blogs = blogDao.getNewListByPage(currentPage-1,
+            blogs = blogDao.getNewListByPage(index,
                     Integer.parseInt(SystemConfig.getConfig("page.number").trim()),
                     SystemConstant.IS_READ,SystemConstant.IS_DRAFT);
             pageWrap.setCounts(blogDao.getDraftCounts(SystemConstant.IS_DRAFT,SystemConstant.IS_READ));
@@ -153,9 +154,10 @@ public class BlogServiceImpl implements BlogService {
 
     public PageWrap<BlogPO> getListByClassification(String classification, int currentPage) throws Exception {
 
+        int index = (currentPage - 1) * Integer.parseInt(SystemConfig.getConfig("page.number").trim());
         //获取分页博文信息集合
         List<Blog> blogs = blogDao.getListByClassification(classification,
-                currentPage-1,Integer.parseInt(SystemConfig.getConfig("page.number")),
+                index,Integer.parseInt(SystemConfig.getConfig("page.number")),
                 SystemConstant.IS_READ,SystemConstant.NOT_DRAFT);
         //包装BlogPO实体集合
         List<BlogPO> blogPOs = packListService.packBlogPOList(blogs);

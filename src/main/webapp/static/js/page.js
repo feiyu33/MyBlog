@@ -92,7 +92,7 @@ $(function () {
         var page = this.innerHTML;
         var req = /^[0-9]*$/;
         if (!req.test(page)){
-            alert("请输入正确的页码值");
+            return;
         }else{
             $.ajax({
                 url:postPath+"/blog/turnPage",

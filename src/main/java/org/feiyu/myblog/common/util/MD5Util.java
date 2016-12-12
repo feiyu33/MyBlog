@@ -2,8 +2,6 @@ package org.feiyu.myblog.common.util;/**
  * Created by feiyu on 2016/10/23.
  */
 
-import org.springframework.stereotype.Service;
-
 import java.security.MessageDigest;
 
 /**
@@ -73,7 +71,6 @@ public class MD5Util {
         return resultString;
     }
     public static void main(String[] args){
-        MD5Util md5Util = new MD5Util();
-        System.out.println(md5Util.MD5Encode("feiyu033"));
+        System.out.println(MD5Util.MD5Encode("feiyu033"));
     }
 }
